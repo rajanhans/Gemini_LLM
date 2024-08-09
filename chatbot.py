@@ -3,7 +3,7 @@ load_dotenv()
 import hmac
 import streamlit as st
 import os
-import google.generativeai as genai
+import google.generativeai as genai 
 api_key =""
 showhistory=""
 

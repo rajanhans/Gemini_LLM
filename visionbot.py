@@ -5,13 +5,9 @@ import streamlit as st
 import os
 import google.generativeai as genai
 from PIL import Image
-api_key =""
-
-
+api_key ="" 
 
 # Main Streamlit app starts here
-
-
 
 with st.sidebar:
 # Show input for password.

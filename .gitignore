@@ -1,9 +1,4 @@
-.venv/
-venv/
-/.env
-/GeminiProKey.txt
-/.streamlit/*
-
+requirements.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -131,11 +126,17 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.venv/
+venv/
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+
+/.env
+/GeminiProKey.txt
+/.streamlit/*
 
 # Spyder project settings
 .spyderproject
