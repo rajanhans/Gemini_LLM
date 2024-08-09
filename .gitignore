@@ -1,4 +1,8 @@
 .venv/
+/.env
+/GeminiProKey.txt
+/.streamlit/*
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
