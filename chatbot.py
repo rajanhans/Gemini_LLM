@@ -1,5 +1,5 @@
-from dotenv import load_dotenv
-load_dotenv()
+""" from dotenv import load_dotenv
+load_dotenv() """
 import hmac
 import streamlit as st
 import os
