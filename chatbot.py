@@ -7,10 +7,7 @@ import google.generativeai as genai
 api_key =""
 showhistory=""
 
-
 # Main Streamlit app starts here
-
-
 
 with st.sidebar:
 # Show input for password.

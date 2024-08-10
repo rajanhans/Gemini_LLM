@@ -1,27 +1,37 @@
 # Q&A Chatbot
 #from langchain.llms import OpenAI
-
 from dotenv import load_dotenv
-
-load_dotenv()  # take environment variables from .env.
-
+import hmac
 import streamlit as st 
 import os
 import pathlib
 import textwrap
 from PIL import Image
-
-
 import google.generativeai as genai
 
+api_key =""
+showhistory=""
+st.set_page_config(page_title="Gemini Image Demo")
+with st.sidebar:
+# Show input for password.
+    st.text_input( "Password", type="password", key="password")
+    if hmac.compare_digest(st.session_state["password"], st.secrets["password"]):
+        #api_key=st.text_input("Please provide your Gemini Pro API Key")
+        genai.configure(api_key=st.secrets["api_key"])
+        "[Get a Gemini API key](https://makersuite.google.com/app/apikey)"
+    else:
+        st.error("😕 Password incorrect")
+        st.stop()
+    showhistory = st.checkbox('Click to show history')
 
-os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+## function to load Gemini Pro model and get response
+model = genai.GenerativeModel('gemini-1.5-flash')
+chat = model.start_chat(history=[])
 
 ## Function to load OpenAI model and get respones
 
 def get_gemini_response(input,image):
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    
     if input!="":
        response = model.generate_content([input,image])
     else:
@@ -30,7 +40,7 @@ def get_gemini_response(input,image):
 
 ##initialize our streamlit app
 
-st.set_page_config(page_title="Gemini Image Demo")
+
 
 st.header("Gemini Application")
 input=st.text_input("Input Prompt: ",key="input")

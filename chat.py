@@ -1,52 +1,57 @@
-# Q&A Chatbot
-#from langchain.llms import OpenAI
-
-from dotenv import load_dotenv 
-
-load_dotenv()  # take environment variables from .env.
-
+from dotenv import load_dotenv
+load_dotenv()
+import hmac
 import streamlit as st
 import os
-import pathlib
-import textwrap
+import google.generativeai as genai 
+api_key =""
+showhistory=""
 
-import google.generativeai as genai
-
-#from IPython.display import display
-#from IPython.display import Markdown
+# Main Streamlit app starts here
 
 
-os.getenv("GOOGLE_API_KEY")
-api_key=os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-print(api_key)
-## Function to load OpenAI model and get respones
-model = genai.GenerativeModel('gemini-pro')
+with st.sidebar:
+# Show input for password.
+    st.text_input( "Password", type="password", key="password")
+    if hmac.compare_digest(st.session_state["password"], st.secrets["password"]):
+        #api_key=st.text_input("Please provide your Gemini Pro API Key")
+        genai.configure(api_key=st.secrets["api_key"])
+        "[Get a Gemini API key](https://makersuite.google.com/app/apikey)"
+    else:
+        st.error("😕 Password incorrect")
+        st.stop()
+    showhistory = st.checkbox('Click to show history')
+
+## function to load Gemini Pro model and get response
+model = genai.GenerativeModel("gemini-pro")
 chat = model.start_chat(history=[])
-def get_gemini_response(question):
-    
-    response =chat.send_message(question,stream=True)
+
+def get_gemini_respone(question):
+    response=chat.send_message(question, stream=True)
     return response
 
-##initialize our streamlit app
+st.title("💬 Rajan's Chunk Chat-Google Gemini Pro")
 
-st.set_page_config(page_title="Rajan's Q&A Demo")
+st.text("!!! Please enter or create a Gemini Pro API key -see sidebar !!!")
+st.divider()
 
-st.header("Rajan's Gemini Application in Chunks")
+#Initialize session state for chat history if it doesn't exist
+if 'chat_history' not in st.session_state:
+    st.session_state['chat_history'] = [] 
 
-input=st.text_input("Input: ",key="input")
+input = st.text_input("Enter your question:", key="input")
+submit=st.button("Ask your question")
 
-
-submit=st.button("Ask the question")
-
-## If ask button is clicked
-
-if submit:
-    
+if submit and input:
     response=get_gemini_response(input)
     st.subheader("The Response is")
     for chunk in response:
         print(st.write(chunk.text))
         print("_"*80)
     
-    st.write(chat.history)
+if showhistory:
+    st.subheader("The chat history is")
+    for role, text in st.session_state['chat_history']:
+        st.write(f"{role}:{text}")
+
+

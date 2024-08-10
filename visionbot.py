@@ -26,7 +26,7 @@ model = genai.GenerativeModel("gemini-pro-vision")
 
 
 def get_gemini_response(input,image):
-    model = genai.GenerativeModel('gemini-pro-vision')
+    model = genai.GenerativeModel('gemini-1.5-flash')
     if input!="":
        response = model.generate_content([input,image])
     else:
@@ -52,7 +52,7 @@ if uploaded_file is not None:
 
 submit=st.button("Lets Analyse..")
 
-if submit and input:
+if submit:
     response = get_gemini_response(input, image)
     ## Add user query and response to session chat history
     st.session_state['chat_history'].append(("You", input))
