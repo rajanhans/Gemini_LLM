@@ -12,13 +12,14 @@ import textwrap
 
 import google.generativeai as genai
 
-from IPython.display import display
-from IPython.display import Markdown
+#from IPython.display import display
+#from IPython.display import Markdown
 
 
 os.getenv("GOOGLE_API_KEY")
+api_key=os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-
+print(api_key)
 ## Function to load OpenAI model and get respones
 model = genai.GenerativeModel('gemini-pro')
 chat = model.start_chat(history=[])
@@ -31,7 +32,7 @@ def get_gemini_response(question):
 
 st.set_page_config(page_title="Rajan's Q&A Demo")
 
-st.header("Rajan's Gemini Application")
+st.header("Rajan's Gemini Application in Chunks")
 
 input=st.text_input("Input: ",key="input")
 
